@@ -20,9 +20,33 @@ public class AnonFile {
     @Column(nullable = false)
     String realFilename;
 
-    public AnonFile(String originalFilename, String realFilename) {
+    @Column(nullable = false)
+    boolean permfile;
+
+    @Column(nullable = false)
+    String comment;
+
+    String deletePassword;
+
+    public AnonFile(String originalFilename, String realFilename, boolean permfile, String comment) {
         this.originalFilename = originalFilename;
         this.realFilename = realFilename;
+        this.permfile = permfile;
+        this.comment = comment;
+    }
+
+    public AnonFile(String originalFilename, String realFilename, String comment) {
+        this.originalFilename = originalFilename;
+        this.realFilename = realFilename;
+        this.comment = comment;
+    }
+
+    public AnonFile(String originalFilename, String realFilename, boolean permfile, String deletePassword, String comment) {
+        this.originalFilename = originalFilename;
+        this.realFilename = realFilename;
+        this.permfile = permfile;
+        this.deletePassword = deletePassword;
+        this.comment = comment;
     }
 
     public AnonFile() {
@@ -50,5 +74,21 @@ public class AnonFile {
 
     public void setRealFilename(String realFilename) {
         this.realFilename = realFilename;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public boolean isPermfile() {
+        return permfile;
+    }
+
+    public void setPermfile(boolean permfile) {
+        this.permfile = permfile;
     }
 }
