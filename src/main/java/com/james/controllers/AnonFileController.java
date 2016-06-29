@@ -4,6 +4,7 @@ import com.james.entities.AnonFile;
 import com.james.services.AnonFileRepository;
 import com.james.utils.PasswordStorage;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,7 @@ public class AnonFileController {
             fos.write(file.getBytes());
 
             AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName(), false, comment);
-            anonFile = files.save(anonFile);
+            files.save(anonFile);
 
             if (files.countByPermfile(false) > 2) {
                 AnonFile fileInDB = files.findFirstByPermfileFalseOrderByIdAsc();
@@ -59,7 +60,7 @@ public class AnonFileController {
         fos.write(file.getBytes());
 
         AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName(), true, comment);
-        anonFile = files.save(anonFile);
+        files.save(anonFile);
         }
 
 
@@ -67,7 +68,16 @@ public class AnonFileController {
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public String delete() {
+    public String delete(int uploadId, String deletePassword) throws Exception {
+        AnonFile aFile = files.findOne(uploadId);
+
+        if (aFile.getDeletePassword() == null || PasswordStorage.verifyPassword(deletePassword, aFile.getDeletePassword())) {
+            files.delete(uploadId);
+        }
+        else {
+            throw new Exception("Incorrect password");
+
+        }
         return "redirect:/";
     }
 }

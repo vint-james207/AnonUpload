@@ -91,4 +91,12 @@ public class AnonFile {
     public void setPermfile(boolean permfile) {
         this.permfile = permfile;
     }
+
+    public String getDeletePassword() {
+        return deletePassword;
+    }
+
+    public void setDeletePassword(String deletePassword) {
+        this.deletePassword = deletePassword;
+    }
 }

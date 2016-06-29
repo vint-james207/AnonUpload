@@ -4,7 +4,7 @@ console.log(data);
         var elem = $("<a>");
         elem.attr("href", "files/" + data[i].realFilename);
         console.log(data[i].realFilename);
-        elem.text(data[i].comment);
+        elem.text(data[i].id + ":" + data[i].comment);
         $("#list").append(elem);
         $("#list").append($("<br>"));
     }
